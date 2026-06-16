@@ -7,7 +7,7 @@ const mysql = require('mysql2');
 // ajuste aqui o nome do arquivo PDF dentro da pasta ./pdf
 const PDF_PATH = path.join(
   __dirname,
-  'pdf',
+  '../pdf',
   'Relaçao Municipal  de Medicamentos Essenciais- REMUME DIVINÓPOLIS- 2026.pdf'
 );
 

@@ -14,7 +14,7 @@ const sessoes = new Map();
 let remumeList = [];
 
 async function carregarRemumePDF() {
-  const PDF_PATH = path.join(__dirname, 'pdf', 'Relaçao Municipal  de Medicamentos Essenciais- REMUME DIVINÓPOLIS- 2026.pdf');
+  const PDF_PATH = path.join(__dirname, '../pdf', 'Relaçao Municipal  de Medicamentos Essenciais- REMUME DIVINÓPOLIS- 2026.pdf');
   if (!fs.existsSync(PDF_PATH)) {
     console.warn('⚠️ PDF REMUME não encontrado em:', PDF_PATH);
     return;
@@ -55,7 +55,7 @@ app.use((req, res, next) => {
   });
 });
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '../public')));
 
 // Pool de conexões com MySQL (reconecta automaticamente)
 const db = mysql.createPool({
