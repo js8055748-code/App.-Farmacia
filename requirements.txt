@@ -1,0 +1,7 @@
+flask
+mysql-connector-python
+apscheduler
+requests
+python-dotenv
+pdfplumber
+psycopg2-binary

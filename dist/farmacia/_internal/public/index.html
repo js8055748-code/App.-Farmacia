@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sistema Farmácia</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="auth.js"></script>
+</head>
+<body>
+
+  <header>
+    <span class="logo-icon">💊</span>
+    <h1>Sistema Farmácia</h1>
+    <nav>
+      <a href="index.html" class="ativo">🏠 <span>Início</span></a>
+      <a href="cadastro_pct.html">👤 <span>Pacientes</span></a>
+      <a href="lancar_medicacao.html">💉 <span>Dispensar</span></a>
+      <a href="estoque.html">📦 <span>Estoque</span></a>
+    </nav>
+    <div style="display:flex; align-items:center; gap:12px;">
+      <span id="usuario-nome" style="font-size:13px; color:var(--cinza-600);"></span>
+      <button onclick="logout()" class="btn btn-outline" style="font-size:13px; padding:6px 14px;">Sair</button>
+    </div>
+  </header>
+
+  <main>
+    <p class="boas-vindas">
+      Bem-vindo! Selecione uma opção para começar.
+    </p>
+
+    <div class="cards-grid">
+
+      <a href="cadastro_pct.html" class="card-menu azul">
+        <div class="icon">👤</div>
+        <h2>Cadastrar Paciente</h2>
+        <p>Registre novos pacientes com dados pessoais e contato para WhatsApp.</p>
+        <span class="seta">Acessar →</span>
+      </a>
+
+      <a href="lancar_medicacao.html" class="card-menu verde">
+        <div class="icon">💉</div>
+        <h2>Lançar Medicação</h2>
+        <p>Busque o paciente pelo CPF e registre os medicamentos dispensados.</p>
+        <span class="seta">Acessar →</span>
+      </a>
+
+      <a href="estoque.html" class="card-menu amar">
+        <div class="icon">📦</div>
+        <h2>Estoque</h2>
+        <p>Visualize e atualize a quantidade disponível de cada medicamento.</p>
+        <span class="seta">Acessar →</span>
+      </a>
+
+    </div>
+  </main>
+
+  <script>
+    var nome = localStorage.getItem('farmaNome');
+    if (nome) document.getElementById('usuario-nome').textContent = '👋 ' + nome;
+
+    function logout() {
+      var token = localStorage.getItem('farmaToken');
+      fetch('/api/logout', {
+        method: 'DELETE',
+        headers: { 'x-auth-token': token || '' }
+      }).finally(function () {
+        localStorage.removeItem('farmaToken');
+        localStorage.removeItem('farmaNome');
+        window.location.replace('login.html');
+      });
+    }
+  </script>
+</body>
+</html>
