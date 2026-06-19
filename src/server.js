@@ -1,10 +1,8 @@
 require('dotenv').config();
 const express = require('express');
-const cron = require('node-cron');
 const path = require('path');
 const fs = require('fs');
 const db = require('./db');
-const { readPdfText } = require('pdf-text-reader');
 const { enviarMensagemTexto } = require('./whatsapp');
 const crypto = require('crypto');
 const cookieParser = require('cookie-parser');
@@ -23,6 +21,7 @@ async function carregarRemumePDF() {
     return;
   }
   try {
+    const { readPdfText } = require('pdf-text-reader');
     console.log('📄 Carregando lista REMUME do PDF...');
     const text = await readPdfText({ url: PDF_PATH });
     const linhas = text.split('\n').map(l => l.trim()).filter(l => l.length > 3);
@@ -279,7 +278,7 @@ app.post('/api/dispensar', authenticateApi, async (req, res) => {
   res.json({ ok: true, dispensacao_id, mensagem: 'Dispensação registrada com sucesso.' });
 });
 
-cron.schedule('0 8 * * *', async () => {
+if (!process.env.VERCEL) require('node-cron').schedule('0 8 * * *', async () => {
   console.log('⏰ Agendador rodando — verificando lembretes...');
 
   const sqlMsg =
@@ -458,5 +457,9 @@ app.get('/api/dispensacoes/paciente/:id', authenticateApi, async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`🚀 Servidor rodando na porta ${PORT}`));
+if (require.main === module) {
+  const PORT = process.env.PORT || 3000;
+  app.listen(PORT, () => console.log(`🚀 Servidor rodando na porta ${PORT}`));
+}
+
+module.exports = app;
