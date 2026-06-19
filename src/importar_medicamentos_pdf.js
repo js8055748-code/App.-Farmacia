@@ -1,17 +1,15 @@
 require('dotenv').config();
 const path = require('path');
 const fs = require('fs');
-const { readPdfText } = require('pdf-text-reader'); // <<< importa função correta
+const { readPdfText } = require('pdf-text-reader'); 
 const mysql = require('mysql2');
 
-// ajuste aqui o nome do arquivo PDF dentro da pasta ./pdf
 const PDF_PATH = path.join(
   __dirname,
   '../pdf',
   'Relaçao Municipal  de Medicamentos Essenciais- REMUME DIVINÓPOLIS- 2026.pdf'
 );
 
-// conexão com MySQL – mesma config do server.js
 const db = mysql.createConnection({
   host: 'localhost',
   user: 'root',
@@ -57,7 +55,6 @@ async function importarDoPdf() {
     let inseridos = 0;
 
     for (const linha of linhasBrutas) {
-      // Exemplo de linha: "Atenolol 50mg Comprimido Básico"
       const partes = linha.split(' ').filter(p => p.length > 0);
       let idxPrimeiroNumero = partes.findIndex(p => /\d/.test(p));
 
@@ -65,7 +62,6 @@ async function importarDoPdf() {
       let apresentacao;
 
       if (idxPrimeiroNumero === -1) {
-        // não achou número: considera linha toda como nome
         nome = linha;
         apresentacao = '';
       } else {

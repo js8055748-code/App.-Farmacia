@@ -47,16 +47,10 @@
         <button class="submit" type="button">
           Entrar
         </button>
-        <a href="https://wa.me/5537998292274?text=Ol%C3%A1,%20gostaria%20de%20recuperar%20o%20meu%20acesso%20ao%20sistema%20Farm%C3%A1cia.%20Segue%20o%20meu%20nome:%20E-mail%20e%20CPF%20."
-          target="_blank" rel="noopener noreferrer">
-          Esqueceu a senha?
-        </a>
-        
-        </a>
-        <p style="text-align:center; margin-top:10px; font-size:13px; color:#6b7280;">
-          Novo usuário? <a href="cadastro_usuario.html"
-            style="color:#2563eb; font-weight:600; text-decoration:none;">Cadastrar</a>
-        </p>
+        <span style="font-size:13px;color:var(--cinza-400);">
+          Esqueceu a senha? Contate o administrador do sistema.
+        </span>
+        <a href="/cadastro-usuario">Novo usuário? Cadastrar</a>
       </form>
 
       <label for="blind-input" class="avatar">
@@ -118,9 +112,8 @@
         .then(function (r) { return r.json(); })
         .then(function (data) {
           if (data.ok) {
-            localStorage.setItem('farmaToken', data.token);
             localStorage.setItem('farmaNome', data.nome);
-            window.location.replace('index.html');
+            window.location.replace('/');
           } else {
             alert(data.erro || 'E-mail ou senha incorretos.');
             btn.disabled = false;

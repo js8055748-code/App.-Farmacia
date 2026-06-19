@@ -4,8 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Lançar Medicação — Farmácia</title>
-  <link rel="stylesheet" href="style.css" />
-  <script src="auth.js"></script>
+  <link rel="stylesheet" href="/style.css" />
 </head>
 
 <body>
@@ -13,10 +12,10 @@
     <span class="logo-icon">💊</span>
     <h1>Sistema Farmácia</h1>
     <nav>
-      <a href="index.html">🏠 <span>Início</span></a>
-      <a href="cadastro_pct.html">👤 <span>Pacientes</span></a>
-      <a href="lancar_medicacao.html" class="ativo">💉 <span>Dispensar</span></a>
-      <a href="estoque.html">📦 <span>Estoque</span></a>
+      <a href="/">🏠 <span>Início</span></a>
+      <a href="/cadastro-paciente">👤 <span>Pacientes</span></a>
+      <a href="/dispensar" class="ativo">💉 <span>Dispensar</span></a>
+      <a href="/estoque">📦 <span>Estoque</span></a>
     </nav>
   </header>
 
@@ -26,7 +25,6 @@
       <h2>Lançar Medicação</h2>
     </div>
 
-    <!-- Busca por CPF -->
     <div class="card-form" style="margin-bottom: 20px;">
       <div class="busca-cpf">
         <div class="campo">
@@ -39,19 +37,16 @@
       <div id="alerta-busca" class="alerta"></div>
     </div>
 
-    <!-- Card paciente encontrado -->
     <div class="paciente-card" id="paciente-card">
       <strong id="paciente-nome"></strong><br />
       <span id="paciente-info"></span>
     </div>
 
-    <!-- Histórico -->
     <div id="historico-disp" class="card-form" style="display:none; margin-top: 10px;">
       <h3 style="font-size:14px; margin-bottom:8px;">Histórico de medicações dispensadas</h3>
       <div id="historico-disp-lista" style="font-size:13px;"></div>
     </div>
 
-    <!-- Formulário de dispensação (oculto até encontrar paciente) -->
     <div class="card-form" id="form-dispensacao-wrap" style="display:none;">
       <div id="alerta-disp" class="alerta"></div>
 
@@ -83,51 +78,17 @@
         Medicamentos dispensados *
       </label>
 
-      <!-- Linha de inserção manual -->
       <div style="display: flex; gap: 8px; margin-top: 4px; position: relative; flex-wrap: wrap; align-items: center;">
         <div style="position: relative; flex: 1; min-width: 200px;">
-          <input
-            type="text"
-            id="medicamento_nome"
-            name="medicamento_nome"
-            placeholder="Nome do medicamento"
-            autocomplete="off"
-            style="width: 100%;"
-          />
-          <div
-            id="sugestoes_medicamento"
-            style="
-              position: absolute;
-              top: 36px;
-              left: 0;
-              background: white;
-              border: 1px solid #ccc;
-              width: 100%;
-              max-height: 180px;
-              overflow-y: auto;
-              display: none;
-              z-index: 10;
-              font-size: 13px;
-              border-radius: 4px;
-              box-shadow: 0 4px 12px rgba(0,0,0,.1);
-            ">
-          </div>
+          <input type="text" id="medicamento_nome" name="medicamento_nome" placeholder="Nome do medicamento" autocomplete="off" style="width: 100%;" />
+          <div id="sugestoes_medicamento" style="position:absolute; top:36px; left:0; background:white; border:1px solid #ccc; width:100%; max-height:180px; overflow-y:auto; display:none; z-index:10; font-size:13px; border-radius:4px; box-shadow:0 4px 12px rgba(0,0,0,.1);"></div>
         </div>
 
-        <span
-          id="estoque-disponivel"
-          style="font-size: 12px; color: var(--cinza-500); white-space: nowrap; display: none;">
+        <span id="estoque-disponivel" style="font-size: 12px; color: var(--cinza-500); white-space: nowrap; display: none;">
           Estoque: <strong id="estoque-qtd">—</strong>
         </span>
 
-        <input
-          type="number"
-          id="medicamento_quantidade"
-          name="medicamento_quantidade"
-          min="1"
-          placeholder="Qtd"
-          style="width: 80px;"
-        />
+        <input type="number" id="medicamento_quantidade" name="medicamento_quantidade" min="1" placeholder="Qtd" style="width: 80px;" />
 
         <select id="medicamento_unidade" name="medicamento_unidade" style="width: 90px;">
           <option value="COMP">COMP</option>
@@ -137,24 +98,15 @@
         </select>
       </div>
 
-      <!-- Botão para adicionar medicamento -->
-      <button
-        type="button"
-        class="btn-add-med"
-        onclick="adicionarMedicamentoManual()"
-        style="margin-top: 8px;"
-      >
+      <button type="button" class="btn-add-med" onclick="adicionarMedicamentoManual()" style="margin-top: 8px;">
         + Adicionar medicamento
       </button>
 
-      <!-- Lista dinâmica de medicamentos adicionados -->
       <div class="med-lista" id="med-lista"></div>
 
       <div class="form-acoes">
         <button type="button" class="btn btn-outline" onclick="cancelarDispensacao()">Cancelar</button>
-        <button type="button" class="btn btn-sucesso" onclick="salvarDispensacao()">
-          ✅ Confirmar dispensação
-        </button>
+        <button type="button" class="btn btn-sucesso" onclick="salvarDispensacao()">✅ Confirmar dispensação</button>
       </div>
     </div>
   </main>
@@ -166,7 +118,6 @@
     let timerAutoComplete = null;
     let mensagemWhatsappAtual = null;
 
-    // --- Máscara CPF ---
     document.getElementById('cpf-busca').addEventListener('input', function () {
       let v = this.value.replace(/\D/g, '').slice(0, 11);
       if (v.length > 9) v = v.replace(/(\d{3})(\d{3})(\d{3})(\d{1,2})/, '$1.$2.$3-$4');
@@ -186,7 +137,6 @@
       setTimeout(() => el.classList.remove('visivel'), 5000);
     }
 
-    // -------- Buscar paciente pelo CPF --------
     async function buscarPaciente() {
       const cpf = document.getElementById('cpf-busca').value.trim();
       if (!cpf) return mostrarAlerta('alerta-busca', 'Informe o CPF.', 'erro');
@@ -213,85 +163,76 @@
         mensagemWhatsappAtual = null;
         atualizarDatasCalculadas();
       } catch (err) {
-        console.error('Erro ao buscar paciente:', err);
         mostrarAlerta('alerta-busca', '❌ Erro de conexão.', 'erro');
       }
     }
 
-    // -------- Histórico de dispensações --------
     async function buscarHistorico() {
       if (!pacienteAtual) {
         const cpf = document.getElementById('cpf-busca').value.trim();
-        if (!cpf) {
-          return mostrarAlerta('alerta-busca', 'Informe o CPF ou busque o paciente primeiro.', 'erro');
-        }
+        if (!cpf) return mostrarAlerta('alerta-busca', 'Informe o CPF ou busque o paciente primeiro.', 'erro');
         await buscarPaciente();
         if (!pacienteAtual) return;
       }
 
       try {
-        const url = `/api/dispensacoes/paciente/${pacienteAtual.id}`;
-        console.log('URL HISTORICO:', url);
-
-        const res = await fetch(url);
-        let data;
-        try {
-          data = await res.json();
-        } catch (e) {
-          console.error('Resposta não é JSON, status:', res.status);
-          throw e;
-        }
-
-        console.log('HISTORICO DISP:', res.status, data);
+        const res = await fetch(`/api/dispensacoes/paciente/${pacienteAtual.id}`);
+        const data = await res.json();
 
         if (!res.ok) {
-          return mostrarAlerta(
-            'alerta-busca',
-            data.erro || 'Erro ao buscar histórico de dispensação.',
-            'erro'
-          );
+          return mostrarAlerta('alerta-busca', data.erro || 'Erro ao buscar histórico.', 'erro');
         }
 
         const listaDiv = document.getElementById('historico-disp-lista');
         const wrap = document.getElementById('historico-disp');
 
         if (!data.dispensacoes || data.dispensacoes.length === 0) {
-          listaDiv.innerHTML = '<p>Sem dispensações registradas para este paciente.</p>';
+          listaDiv.textContent = 'Sem dispensações registradas para este paciente.';
           wrap.style.display = 'block';
           return;
         }
 
-        const itensHtml = data.dispensacoes
-          .map((d) => {
-            const meds = d.medicamentos && d.medicamentos.length
-              ? d.medicamentos
-                  .map(
-                    (m) =>
-                      `&nbsp;&nbsp;- ${m.nome} (Qtd: ${m.quantidade}${m.unidade ? ' ' + m.unidade : ''})`
-                  )
-                  .join('<br>')
-              : '&nbsp;&nbsp;- (medicamentos não detalhados)';
+        listaDiv.innerHTML = '';
+        data.dispensacoes.forEach(d => {
+          const div = document.createElement('div');
+          div.className = 'historico-item';
+          div.style.cssText = 'margin-bottom:8px; padding-bottom:6px; border-bottom:1px solid #eee;';
 
-            return `
-              <div class="historico-item" style="margin-bottom:8px; padding-bottom:6px; border-bottom:1px solid #eee;">
-                <div><strong>Data retirada:</strong> ${d.data_proxima_retirada}</div>
-                <div><strong>Renovação:</strong> ${d.data_para_renovacao}</div>
-                <div><strong>Observações:</strong> ${d.observacoes || '-'}</div>
-                <div><strong>Medicamentos:</strong><br>${meds}</div>
-              </div>
-            `;
-          })
-          .join('');
+          const addLine = (label, value) => {
+            const line = document.createElement('div');
+            const strong = document.createElement('strong');
+            strong.textContent = label;
+            line.appendChild(strong);
+            line.appendChild(document.createTextNode(' ' + (value || '-')));
+            div.appendChild(line);
+          };
 
-        listaDiv.innerHTML = itensHtml;
+          addLine('Data retirada:', d.data_proxima_retirada);
+          addLine('Renovação:', d.data_para_renovacao);
+          addLine('Observações:', d.observacoes);
+
+          if (d.medicamentos && d.medicamentos.length) {
+            const medDiv = document.createElement('div');
+            const strong = document.createElement('strong');
+            strong.textContent = 'Medicamentos:';
+            medDiv.appendChild(strong);
+            d.medicamentos.forEach(m => {
+              const line = document.createElement('div');
+              line.style.paddingLeft = '12px';
+              line.textContent = `- ${m.nome} (Qtd: ${m.quantidade}${m.unidade ? ' ' + m.unidade : ''})`;
+              medDiv.appendChild(line);
+            });
+            div.appendChild(medDiv);
+          }
+
+          listaDiv.appendChild(div);
+        });
         wrap.style.display = 'block';
       } catch (err) {
-        console.error('Erro ao buscar histórico:', err);
         mostrarAlerta('alerta-busca', 'Erro de conexão ao buscar histórico.', 'erro');
       }
     }
 
-    // -------- Autocomplete de medicamentos --------
     const inputNome = document.getElementById('medicamento_nome');
     const divSugestoes = document.getElementById('sugestoes_medicamento');
     const spanEstoque = document.getElementById('estoque-disponivel');
@@ -301,11 +242,9 @@
       medSelecionadoId = null;
       medSelecionadoEstoque = null;
       spanEstoque.style.display = 'none';
-
       clearTimeout(timerAutoComplete);
       const termo = this.value.trim();
       if (termo.length < 2) { divSugestoes.style.display = 'none'; return; }
-
       timerAutoComplete = setTimeout(() => buscarSugestoes(termo), 250);
     });
 
@@ -317,18 +256,29 @@
 
         if (lista.length === 0) { divSugestoes.style.display = 'none'; return; }
 
-        divSugestoes.innerHTML = lista.map(m => `
-          <div style="padding: 8px 12px; cursor: pointer; border-bottom: 1px solid #eee;"
-               onmousedown="selecionarMedicamento(${m.id}, '${m.nome.replace(/'/g, "\\'")}', ${m.estoque ?? 0})"
-               onmouseover="this.style.background='#f0f4ff'"
-               onmouseout="this.style.background=''">
-            <strong>${m.nome}</strong>
-            ${m.apresentacao ? `<span style="color:#888; font-size:11px;"> · ${m.apresentacao}</span>` : ''}
-            <span style="float:right; font-size:11px; color:${(m.estoque ?? 0) === 0 ? '#e53e3e' : (m.estoque ?? 0) <= 10 ? '#dd6b20' : '#38a169'};">
-              Estoque: ${m.estoque ?? 0}
-            </span>
-          </div>
-        `).join('');
+        divSugestoes.innerHTML = '';
+        lista.forEach(m => {
+          const item = document.createElement('div');
+          item.style.cssText = 'padding:8px 12px; cursor:pointer; border-bottom:1px solid #eee;';
+          item.addEventListener('mousedown', () => selecionarMedicamento(m.id, m.nome, m.estoque ?? 0));
+          item.addEventListener('mouseover', () => { item.style.background = '#f0f4ff'; });
+          item.addEventListener('mouseout', () => { item.style.background = ''; });
+          const strong = document.createElement('strong');
+          strong.textContent = m.nome;
+          item.appendChild(strong);
+          if (m.apresentacao) {
+            const span = document.createElement('span');
+            span.style.cssText = 'color:#888; font-size:11px;';
+            span.textContent = ' · ' + m.apresentacao;
+            item.appendChild(span);
+          }
+          const estoqueVal = m.estoque ?? 0;
+          const estSpan = document.createElement('span');
+          estSpan.style.cssText = `float:right; font-size:11px; color:${estoqueVal === 0 ? '#e53e3e' : estoqueVal <= 10 ? '#dd6b20' : '#38a169'};`;
+          estSpan.textContent = 'Estoque: ' + estoqueVal;
+          item.appendChild(estSpan);
+          divSugestoes.appendChild(item);
+        });
         divSugestoes.style.display = 'block';
       } catch (e) {
         divSugestoes.style.display = 'none';
@@ -340,7 +290,6 @@
       medSelecionadoId = id;
       medSelecionadoEstoque = estoque;
       divSugestoes.style.display = 'none';
-
       spanEstoqueQtd.textContent = estoque;
       spanEstoqueQtd.style.color = estoque === 0 ? '#e53e3e' : estoque <= 10 ? '#dd6b20' : '#38a169';
       spanEstoque.style.display = 'inline';
@@ -373,7 +322,6 @@
       mensagemWhatsappAtual = null;
     }
 
-    // ---- Cálculo e exibição das datas ----
     const inputDias = document.getElementById('dias-retirada');
     inputDias.addEventListener('input', atualizarDatasCalculadas);
 
@@ -407,7 +355,6 @@
       campoRenovacao.dataset.iso = renovacao.iso;
     }
 
-    // --- Adicionar medicamento na lista ---
     function adicionarMedicamentoManual() {
       const inputMedNome = document.getElementById('medicamento_nome');
       const qtdInput = document.getElementById('medicamento_quantidade');
@@ -424,12 +371,6 @@
       const lista = document.getElementById('med-lista');
       const idx = Date.now();
       const estoqueAtual = medSelecionadoEstoque;
-      const corEstoque = estoqueAtual === null ? '' :
-        estoqueAtual === 0 ? 'color:#e53e3e' :
-          estoqueAtual <= 10 ? 'color:#dd6b20' : 'color:#38a169';
-      const estoqueInfo = estoqueAtual !== null
-        ? `<span style="font-size:11px;${corEstoque}"> · Estoque: ${estoqueAtual}</span>`
-        : '';
 
       const item = document.createElement('div');
       item.className = 'med-item';
@@ -437,23 +378,59 @@
       item.dataset.medicamentoId = medSelecionadoId || '';
       item.dataset.nome = nome;
 
-      item.innerHTML = `
-        <div class="campo">
-          <label>Medicamento</label>
-          <input type="text" value="${nome}" readonly />
-          ${estoqueInfo}
-        </div>
-        <div class="campo">
-          <label>Quantidade</label>
-          <input type="number" value="${quantidade}" min="1" readonly />
-        </div>
-        <div class="campo">
-          <label>Unidade</label>
-          <input type="text" value="${unidade}" readonly />
-        </div>
-        <button type="button" class="btn-remover" onclick="removerMedicamento('med-${idx}')" title="Remover">✕</button>
-      `;
+      const nomeDiv = document.createElement('div');
+      nomeDiv.className = 'campo';
+      const nomeLbl = document.createElement('label');
+      nomeLbl.textContent = 'Medicamento';
+      const nomeInput = document.createElement('input');
+      nomeInput.type = 'text';
+      nomeInput.value = nome;
+      nomeInput.readOnly = true;
+      nomeDiv.appendChild(nomeLbl);
+      nomeDiv.appendChild(nomeInput);
 
+      if (estoqueAtual !== null) {
+        const estSpan = document.createElement('span');
+        const cor = estoqueAtual === 0 ? '#e53e3e' : estoqueAtual <= 10 ? '#dd6b20' : '#38a169';
+        estSpan.style.cssText = `font-size:11px;color:${cor}`;
+        estSpan.textContent = ` Estoque: ${estoqueAtual}`;
+        nomeDiv.appendChild(estSpan);
+      }
+
+      const qtdDiv = document.createElement('div');
+      qtdDiv.className = 'campo';
+      const qtdLbl = document.createElement('label');
+      qtdLbl.textContent = 'Quantidade';
+      const qtdInputEl = document.createElement('input');
+      qtdInputEl.type = 'number';
+      qtdInputEl.value = quantidade;
+      qtdInputEl.min = '1';
+      qtdInputEl.readOnly = true;
+      qtdDiv.appendChild(qtdLbl);
+      qtdDiv.appendChild(qtdInputEl);
+
+      const unidadeDiv = document.createElement('div');
+      unidadeDiv.className = 'campo';
+      const unidadeLbl = document.createElement('label');
+      unidadeLbl.textContent = 'Unidade';
+      const unidadeInput = document.createElement('input');
+      unidadeInput.type = 'text';
+      unidadeInput.value = unidade;
+      unidadeInput.readOnly = true;
+      unidadeDiv.appendChild(unidadeLbl);
+      unidadeDiv.appendChild(unidadeInput);
+
+      const removeBtn = document.createElement('button');
+      removeBtn.type = 'button';
+      removeBtn.className = 'btn-remover';
+      removeBtn.title = 'Remover';
+      removeBtn.textContent = '✕';
+      removeBtn.onclick = () => removerMedicamento(`med-${idx}`);
+
+      item.appendChild(nomeDiv);
+      item.appendChild(qtdDiv);
+      item.appendChild(unidadeDiv);
+      item.appendChild(removeBtn);
       lista.appendChild(item);
 
       inputMedNome.value = '';
@@ -465,17 +442,12 @@
       divSugestoes.style.display = 'none';
     }
 
-    // --- Abrir WhatsApp ---
     function abrirWhatsappPaciente(numero, mensagem) {
       const telefoneLimpo = (numero || '').replace(/\D/g, '');
       if (!telefoneLimpo || !mensagem) return;
-
-      const texto = encodeURIComponent(mensagem);
-      const url = `https://wa.me/${telefoneLimpo}?text=${texto}`;
-      window.open(url, '_blank');
+      window.open(`https://wa.me/${telefoneLimpo}?text=${encodeURIComponent(mensagem)}`, '_blank');
     }
 
-    // --- Salvar dispensação ---
     async function salvarDispensacao() {
       if (!pacienteAtual) return;
 
@@ -491,25 +463,16 @@
         atualizarDatasCalculadas();
       }
 
-      const dataRetiradaISO = campoRetirada.dataset.iso;
-      const dataRenovacaoISO = campoRenovacao.dataset.iso;
-
       const itens = [];
-      document.querySelectorAll('#med-lista .med-item').forEach((item) => {
-        const nome = item.dataset.nome;
-        const medicamentoId = item.dataset.medicamentoId || null;
-        const qtdInput = item.querySelector('input[type="number"]');
+      document.querySelectorAll('#med-lista .med-item').forEach((itemEl) => {
+        const nome = itemEl.dataset.nome;
+        const medicamentoId = itemEl.dataset.medicamentoId || null;
+        const qtdInput = itemEl.querySelector('input[type="number"]');
         const qtd = qtdInput ? Number(qtdInput.value) : 0;
-        const unidadeInput = item.querySelectorAll('input[type="text"]')[1];
+        const unidadeInput = itemEl.querySelectorAll('input[type="text"]')[1];
         const unidade = unidadeInput ? unidadeInput.value : null;
-
         if (nome && qtd && qtd > 0) {
-          itens.push({
-            medicamento_id: medicamentoId ? parseInt(medicamentoId) : null,
-            nome,
-            quantidade: qtd,
-            unidade,
-          });
+          itens.push({ medicamento_id: medicamentoId ? parseInt(medicamentoId) : null, nome, quantidade: qtd, unidade });
         }
       });
 
@@ -517,18 +480,15 @@
         return mostrarAlerta('alerta-disp', '❌ Adicione ao menos um medicamento.', 'erro');
       }
 
-      const formatarData = (iso) => {
-        const [ano, mes, dia] = iso.split('-');
-        return `${dia}-${mes}-${ano}`;
-      };
+      const formatarData = iso => { const [ano, mes, dia] = iso.split('-'); return `${dia}-${mes}-${ano}`; };
 
       const body = {
         paciente_id: pacienteAtual.id,
         nome_paciente: pacienteAtual.nome || null,
         telefone: pacienteAtual.telefone || null,
         medicamentos: itens,
-        data_proxima_retirada: formatarData(dataRetiradaISO),
-        data_para_renovacao: formatarData(dataRenovacaoISO),
+        data_proxima_retirada: formatarData(campoRetirada.dataset.iso),
+        data_para_renovacao: formatarData(campoRenovacao.dataset.iso),
         observacoes: document.getElementById('obs-disp').value.trim() || null,
       };
 
@@ -542,37 +502,21 @@
         const data = await res.json();
 
         if (res.ok) {
-          // Monta texto do WhatsApp com base nos dados da própria tela
-          const medsLinha = itens
-            .map(m => `- ${m.nome} (Qtd: ${m.quantidade}${m.unidade ? ' ' + m.unidade : ''})`)
-            .join('\n');
-
+          const medsLinha = itens.map(m => `- ${m.nome} (Qtd: ${m.quantidade}${m.unidade ? ' ' + m.unidade : ''})`).join('\n');
           mensagemWhatsappAtual =
-            `Olá, ${pacienteAtual.nome}!\n\n` +
-            `Sua retirada de medicamentos foi registrada.\n\n` +
-            `Medicamentos:\n${medsLinha}\n\n` +
-            `Próxima retirada: ${body.data_proxima_retirada}.\n` +
-            `Renovação da receita: ${body.data_para_renovacao}.\n` +
-            `Esta mensagem não precisa ser respondida!`;
+            `Olá, ${pacienteAtual.nome}!\n\nSua retirada de medicamentos foi registrada.\n\nMedicamentos:\n${medsLinha}\n\nPróxima retirada: ${body.data_proxima_retirada}.\nRenovação da receita: ${body.data_para_renovacao}.\nEsta mensagem não precisa ser respondida!`;
 
-          mostrarAlerta(
-            'alerta-disp',
-            '✅ Dispensação registrada! Abrindo WhatsApp para enviar a mensagem.',
-            'sucesso'
-          );
+          mostrarAlerta('alerta-disp', '✅ Dispensação registrada! Abrindo WhatsApp para enviar a mensagem.', 'sucesso');
 
-          // Abre WhatsApp com a mensagem
           if (pacienteAtual.telefone && mensagemWhatsappAtual) {
             abrirWhatsappPaciente(pacienteAtual.telefone, mensagemWhatsappAtual);
           }
 
-          // Limpa imediatamente para nova dispensação
           cancelarDispensacao();
         } else {
           mostrarAlerta('alerta-disp', '❌ ' + (data.erro || 'Erro ao registrar.'), 'erro');
         }
       } catch (err) {
-        console.error('Erro ao salvar dispensação:', err);
         mostrarAlerta('alerta-disp', '❌ Erro de conexão com o servidor.', 'erro');
       }
     }

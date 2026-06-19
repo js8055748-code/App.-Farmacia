@@ -5,106 +5,39 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Atendimento ao Paciente — Farmácia</title>
-    <link rel="stylesheet" href="style.css" />
-    <script src="auth.js"></script>
+    <link rel="stylesheet" href="/style.css" />
     <style>
-        .autocomplete-wrap {
-            position: relative;
-        }
-
+        .autocomplete-wrap { position: relative; }
         .autocomplete-list {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            z-index: 50;
-            background: var(--branco);
-            border: 1px solid var(--cinza-200);
-            border-top: none;
-            border-radius: 0 0 7px 7px;
-            max-height: 200px;
-            overflow-y: auto;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, .1);
+            position: absolute; top: 100%; left: 0; right: 0; z-index: 50;
+            background: var(--branco); border: 1px solid var(--cinza-200);
+            border-top: none; border-radius: 0 0 7px 7px;
+            max-height: 200px; overflow-y: auto;
+            box-shadow: 0 4px 12px rgba(0,0,0,.1);
         }
-
         .autocomplete-list li {
-            padding: 9px 12px;
-            cursor: pointer;
-            font-size: 13px;
-            border-bottom: 1px solid var(--cinza-100);
-            list-style: none;
+            padding: 9px 12px; cursor: pointer; font-size: 13px;
+            border-bottom: 1px solid var(--cinza-100); list-style: none;
         }
-
-        .autocomplete-list li:hover,
-        .autocomplete-list li.ativo {
-            background: var(--azul-claro);
-            color: var(--azul);
+        .autocomplete-list li:hover, .autocomplete-list li.ativo {
+            background: var(--azul-claro); color: var(--azul);
         }
-
-        .autocomplete-list li strong {
-            font-weight: 700;
-        }
-
         .datas-calc {
-            background: var(--cinza-50);
-            border: 1px solid var(--cinza-200);
-            border-radius: 7px;
-            padding: 14px 16px;
-            margin-top: 16px;
+            background: var(--cinza-50); border: 1px solid var(--cinza-200);
+            border-radius: 7px; padding: 14px 16px; margin-top: 16px;
         }
-
-        .datas-calc h4 {
-            font-size: 13px;
-            font-weight: 700;
-            color: var(--cinza-600);
-            margin-bottom: 10px;
-        }
-
-        .datas-calc .linha {
-            display: flex;
-            justify-content: space-between;
-            font-size: 13px;
-            padding: 4px 0;
-        }
-
-        .datas-calc .linha span:first-child {
-            color: var(--cinza-600);
-        }
-
-        .datas-calc .linha span:last-child {
-            font-weight: 600;
-        }
-
+        .datas-calc h4 { font-size: 13px; font-weight: 700; color: var(--cinza-600); margin-bottom: 10px; }
+        .datas-calc .linha { display: flex; justify-content: space-between; font-size: 13px; padding: 4px 0; }
+        .datas-calc .linha span:first-child { color: var(--cinza-600); }
+        .datas-calc .linha span:last-child { font-weight: 600; }
         .tag-med {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: var(--azul-claro);
-            border: 1px solid #BFDBFE;
-            border-radius: 99px;
-            padding: 4px 10px;
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--azul);
-            margin: 3px;
+            display: inline-flex; align-items: center; gap: 6px;
+            background: var(--azul-claro); border: 1px solid #BFDBFE;
+            border-radius: 99px; padding: 4px 10px;
+            font-size: 12px; font-weight: 600; color: var(--azul); margin: 3px;
         }
-
-        .tag-med button {
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: var(--azul);
-            font-size: 14px;
-            padding: 0;
-            line-height: 1;
-        }
-
-        .tags-wrap {
-            min-height: 36px;
-            padding: 6px;
-            border: 1px solid var(--cinza-200);
-            border-radius: 7px;
-        }
+        .tag-med button { background: none; border: none; cursor: pointer; color: var(--azul); font-size: 14px; padding: 0; line-height: 1; }
+        .tags-wrap { min-height: 36px; padding: 6px; border: 1px solid var(--cinza-200); border-radius: 7px; }
     </style>
 </head>
 
@@ -114,25 +47,21 @@
         <span class="logo-icon">💊</span>
         <h1>Sistema Farmácia</h1>
         <nav>
-            <a href="index.html">🏠 <span>Início</span></a>
-            <a href="cadastro_pct.html">👤 <span>Pacientes</span></a>
-            <a href="paciente.html" class="ativo">🩺 <span>Atendimento</span></a>
-            <a href="estoque.html">📦 <span>Estoque</span></a>
+            <a href="/">🏠 <span>Início</span></a>
+            <a href="/cadastro-paciente">👤 <span>Pacientes</span></a>
+            <a href="/atendimento" class="ativo">🩺 <span>Atendimento</span></a>
+            <a href="/estoque">📦 <span>Estoque</span></a>
         </nav>
     </header>
 
     <main>
         <div class="page-title">
-            <button class="btn-voltar" onclick="window.location.href = 'index.html'">
-                ← Voltar
-            </button>
+            <button class="btn-voltar" onclick="window.location.href = '/'">← Voltar</button>
             <h2>Atendimento ao Paciente</h2>
         </div>
 
-        <!-- ETAPA 1: Busca por CPF -->
         <div class="card-form" style="margin-bottom:20px;">
-            <p style="font-size:13px;font-weight:700;color:var(--cinza-600);margin-bottom:12px;"> Identificar paciente
-            </p>
+            <p style="font-size:13px;font-weight:700;color:var(--cinza-600);margin-bottom:12px;">Identificar paciente</p>
             <div class="busca-cpf">
                 <div class="campo">
                     <label for="cpf-busca">CPF do paciente</label>
@@ -148,22 +77,17 @@
             </div>
         </div>
 
-        <!-- ETAPA 2: Dispensação -->
         <div id="form-wrap" style="display:none;">
             <div class="card-form">
-                <p style="font-size:13px;font-weight:700;color:var(--cinza-600);margin-bottom:20px;"> Registrar
-                    dispensação</p>
+                <p style="font-size:13px;font-weight:700;color:var(--cinza-600);margin-bottom:20px;">Registrar dispensação</p>
 
                 <div id="alerta-disp" class="alerta"></div>
 
-                <!-- Campo de dias -->
                 <div class="form-grid" style="margin-bottom:20px;">
                     <div class="campo">
                         <label for="dias-retorno">Dias para retorno *</label>
-                        <input type="number" id="dias-retorno" min="1" max="365" placeholder="Ex: 30"
-                            oninput="calcularDatas()" />
-                        <span style="font-size:11px;color:var(--cinza-400);">O sistema calculará as datas
-                            automaticamente</span>
+                        <input type="number" id="dias-retorno" min="1" max="365" placeholder="Ex: 30" oninput="calcularDatas()" />
+                        <span style="font-size:11px;color:var(--cinza-400);">O sistema calculará as datas automaticamente</span>
                     </div>
                     <div class="campo">
                         <label for="obs-disp">Observações</label>
@@ -171,22 +95,16 @@
                     </div>
                 </div>
 
-                <!-- Datas calculadas -->
                 <div class="datas-calc" id="datas-calc" style="display:none;">
                     <h4>📅 Datas calculadas automaticamente</h4>
                     <div class="linha"><span>Data de nova retirada:</span><span id="calc-retirada">—</span></div>
-                    <div class="linha"><span>Lembrete renovação de receita (10 dias antes):</span><span
-                            id="calc-renovacao">—</span></div>
-                    <div class="linha"><span>Lembrete nova retirada (15 dias antes):</span><span
-                            id="calc-lembrete">—</span></div>
+                    <div class="linha"><span>Lembrete renovação de receita (10 dias antes):</span><span id="calc-renovacao">—</span></div>
+                    <div class="linha"><span>Lembrete nova retirada (15 dias antes):</span><span id="calc-lembrete">—</span></div>
                 </div>
 
-                <!-- Medicamentos com autocomplete REMUME -->
                 <div style="margin-top:24px;">
-                    <label style="font-size:13px;font-weight:700;color:var(--cinza-600);">Medicamentos dispensados
-                        *</label>
-                    <p style="font-size:12px;color:var(--cinza-400);margin:4px 0 10px;">Digite o nome para buscar na
-                        REMUME 2026</p>
+                    <label style="font-size:13px;font-weight:700;color:var(--cinza-600);">Medicamentos dispensados *</label>
+                    <p style="font-size:12px;color:var(--cinza-400);margin:4px 0 10px;">Digite o nome para buscar na REMUME 2026</p>
 
                     <div class="autocomplete-wrap">
                         <div class="campo">
@@ -197,8 +115,7 @@
                     </div>
 
                     <div class="tags-wrap" id="meds-selecionados" style="margin-top:10px;">
-                        <span style="font-size:12px;color:var(--cinza-400);" id="tags-placeholder">Nenhum medicamento
-                            adicionado</span>
+                        <span style="font-size:12px;color:var(--cinza-400);" id="tags-placeholder">Nenhum medicamento adicionado</span>
                     </div>
                 </div>
 
@@ -211,13 +128,12 @@
     </main>
 
     <script>
-        "Glicosímetro compatível com tiras reagentes Municipal / Protocolo Diabetes";
-
         let pacienteAtual = null;
-        let medsSelecionados = []; // [{nome, concentracao, label}]
+        let medsSelecionados = [];
+        let remumeFiltrado = [];
         let listIdx = -1;
+        let remumeTimer = null;
 
-        // ── Máscara CPF ──
         document.getElementById('cpf-busca').addEventListener('input', function () {
             let v = this.value.replace(/\D/g, '').slice(0, 11);
             if (v.length > 9) v = v.replace(/(\d{3})(\d{3})(\d{3})(\d{1,2})/, '$1.$2.$3-$4');
@@ -229,11 +145,11 @@
 
         function alerta(id, msg, tipo) {
             const el = document.getElementById(id);
-            el.textContent = msg; el.className = `alerta ${tipo} visivel`;
+            el.textContent = msg;
+            el.className = `alerta ${tipo} visivel`;
             setTimeout(() => el.classList.remove('visivel'), 5000);
         }
 
-        // ── Busca paciente ──
         async function buscarPaciente() {
             const cpf = document.getElementById('cpf-busca').value.trim();
             if (!cpf) return alerta('alerta-busca', 'Informe o CPF.', 'erro');
@@ -249,7 +165,7 @@
                 pacienteAtual = data.paciente;
                 document.getElementById('pct-nome').textContent = pacienteAtual.nome;
                 document.getElementById('pct-info').textContent =
-                    `CPF: ${pacienteAtual.cpf} · WhatsApp: ${pacienteAtual.telefone_whatsapp}`;
+                    `CPF: ${pacienteAtual.cpf} · WhatsApp: ${pacienteAtual.telefone || 'não informado'}`;
                 document.getElementById('paciente-card').classList.add('visivel');
                 document.getElementById('form-wrap').style.display = 'block';
                 medsSelecionados = [];
@@ -259,16 +175,13 @@
             } catch (e) { alerta('alerta-busca', '❌ Erro de conexão.', 'erro'); }
         }
 
-        // ── Calcula datas ──
         function calcularDatas() {
             const dias = parseInt(document.getElementById('dias-retorno').value);
             if (!dias || dias < 1) { document.getElementById('datas-calc').style.display = 'none'; return; }
-
             const hoje = new Date();
             const retirada = new Date(hoje); retirada.setDate(hoje.getDate() + dias);
             const lembrete = new Date(retirada); lembrete.setDate(retirada.getDate() - 15);
             const renovacao = new Date(retirada); renovacao.setDate(retirada.getDate() - 10);
-
             const fmt = d => d.toLocaleDateString('pt-BR');
             document.getElementById('calc-retirada').textContent = fmt(retirada);
             document.getElementById('calc-renovacao').textContent = fmt(renovacao);
@@ -276,25 +189,39 @@
             document.getElementById('datas-calc').style.display = 'block';
         }
 
-        // ── Autocomplete REMUME ──
         function filtrarMed() {
-            const q = document.getElementById('med-busca').value.trim().toLowerCase();
+            const q = document.getElementById('med-busca').value.trim();
             const ul = document.getElementById('med-lista-auto');
             listIdx = -1;
+            clearTimeout(remumeTimer);
             if (q.length < 2) { ul.style.display = 'none'; return; }
+            remumeTimer = setTimeout(() => buscarRemumePaciente(q), 250);
+        }
 
-            const res = REMUME.filter(m =>
-                m.nome.toLowerCase().includes(q) ||
-                (m.concentracao || '').toLowerCase().includes(q)
-            ).slice(0, 12);
+        async function buscarRemumePaciente(q) {
+            try {
+                const res = await fetch(`/api/remume?term=${encodeURIComponent(q)}`);
+                remumeFiltrado = await res.json();
+                renderList(remumeFiltrado);
+            } catch (e) {
+                document.getElementById('med-lista-auto').style.display = 'none';
+            }
+        }
 
-            if (!res.length) { ul.style.display = 'none'; return; }
-
-            ul.innerHTML = res.map((m, i) =>
-                `<li onclick="selecionarMed(${REMUME.indexOf(m)})" data-i="${i}">
-          <strong>${m.nome}</strong>${m.concentracao ? ' — ' + m.concentracao : ''}
-        </li>`
-            ).join('');
+        function renderList(lista) {
+            const ul = document.getElementById('med-lista-auto');
+            if (!lista.length) { ul.style.display = 'none'; return; }
+            ul.innerHTML = '';
+            lista.forEach((m, i) => {
+                const li = document.createElement('li');
+                li.dataset.i = i;
+                const strong = document.createElement('strong');
+                strong.textContent = m.nome;
+                li.appendChild(strong);
+                if (m.apresentacao) li.appendChild(document.createTextNode(' — ' + m.apresentacao));
+                li.onclick = () => selecionarMed(i);
+                ul.appendChild(li);
+            });
             ul.style.display = 'block';
         }
 
@@ -304,10 +231,7 @@
             if (!items.length) return;
             if (e.key === 'ArrowDown') { listIdx = Math.min(listIdx + 1, items.length - 1); highlight(items); e.preventDefault(); }
             else if (e.key === 'ArrowUp') { listIdx = Math.max(listIdx - 1, 0); highlight(items); e.preventDefault(); }
-            else if (e.key === 'Enter' && listIdx >= 0) {
-                const idx = parseInt(items[listIdx].getAttribute('onclick').match(/\d+/)[0]);
-                selecionarMed(idx); e.preventDefault();
-            }
+            else if (e.key === 'Enter' && listIdx >= 0) { selecionarMed(listIdx); e.preventDefault(); }
             else if (e.key === 'Escape') { ul.style.display = 'none'; }
         }
 
@@ -315,15 +239,16 @@
             items.forEach((li, i) => li.classList.toggle('ativo', i === listIdx));
         }
 
-        function selecionarMed(remIdx) {
-            const m = REMUME[remIdx];
+        function selecionarMed(idx) {
+            const m = remumeFiltrado[idx];
             if (!m) return;
             if (medsSelecionados.find(x => x.nome === m.nome)) {
                 document.getElementById('med-busca').value = '';
                 document.getElementById('med-lista-auto').style.display = 'none';
                 return;
             }
-            medsSelecionados.push({ nome: m.nome, concentracao: m.concentracao, label: `${m.nome} ${m.concentracao}`.trim() });
+            const label = m.apresentacao ? `${m.nome} ${m.apresentacao}` : m.nome;
+            medsSelecionados.push({ nome: m.nome, apresentacao: m.apresentacao, label });
             document.getElementById('med-busca').value = '';
             document.getElementById('med-lista-auto').style.display = 'none';
             renderTags();
@@ -336,31 +261,33 @@
 
         function renderTags() {
             const wrap = document.getElementById('meds-selecionados');
-            const ph = document.getElementById('tags-placeholder');
             if (!medsSelecionados.length) {
                 wrap.innerHTML = '';
-                wrap.appendChild(Object.assign(document.createElement('span'), {
-                    textContent: 'Nenhum medicamento adicionado',
-                    style: 'font-size:12px;color:var(--cinza-400);',
-                    id: 'tags-placeholder'
-                }));
+                const span = document.createElement('span');
+                span.id = 'tags-placeholder';
+                span.style.cssText = 'font-size:12px;color:var(--cinza-400);';
+                span.textContent = 'Nenhum medicamento adicionado';
+                wrap.appendChild(span);
                 return;
             }
-            wrap.innerHTML = medsSelecionados.map(m =>
-                `<span class="tag-med">
-          ${m.label}
-          <button onclick="removerMed('${m.nome.replace(/'/g, "\\'")}')">✕</button>
-        </span>`
-            ).join('');
+            wrap.innerHTML = '';
+            medsSelecionados.forEach(m => {
+                const tag = document.createElement('span');
+                tag.className = 'tag-med';
+                tag.textContent = m.label + ' ';
+                const btn = document.createElement('button');
+                btn.textContent = '✕';
+                btn.onclick = () => removerMed(m.nome);
+                tag.appendChild(btn);
+                wrap.appendChild(tag);
+            });
         }
 
-        // Fecha autocomplete ao clicar fora
         document.addEventListener('click', e => {
             if (!e.target.closest('.autocomplete-wrap'))
                 document.getElementById('med-lista-auto').style.display = 'none';
         });
 
-        // ── Salvar ──
         async function salvar() {
             if (!pacienteAtual) return;
             const dias = parseInt(document.getElementById('dias-retorno').value);
@@ -374,20 +301,14 @@
             const fmtISO = d => {
                 const dia = String(d.getDate()).padStart(2, '0');
                 const mes = String(d.getMonth() + 1).padStart(2, '0');
-                const ano = d.getFullYear();
-                return `${dia}-${mes}-${ano}`;
+                return `${dia}-${mes}-${d.getFullYear()}`;
             };
 
             const body = {
                 paciente_id: pacienteAtual.id,
-                usuario_id: 1,
-                telefone_whatsapp: pacienteAtual.telefone_whatsapp,
-                medicamentos: medsSelecionados.map(m => ({
-                    medicamento_id: null,
-                    nome: m.nome,
-                    quantidade: 1,
-                    concentracao: m.concentracao
-                })),
+                nome_paciente: pacienteAtual.nome,
+                telefone: pacienteAtual.telefone,
+                medicamentos: medsSelecionados.map(m => ({ medicamento_id: null, nome: m.nome, quantidade: 1, unidade: 'COMP' })),
                 data_proxima_retirada: fmtISO(retirada),
                 data_para_renovacao: fmtISO(renovacao),
                 observacoes: document.getElementById('obs-disp').value.trim() || null,

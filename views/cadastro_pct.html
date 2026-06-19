@@ -4,9 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Cadastrar Paciente — Farmácia</title>
-  <!-- style.css deve estar em /public/style.css -->
-  <link rel="stylesheet" href="style.css" />
-  <script src="auth.js"></script>
+  <link rel="stylesheet" href="/style.css" />
 </head>
 <body>
 
@@ -14,16 +12,16 @@
     <span class="logo-icon">💊</span>
     <h1>Sistema Farmácia</h1>
     <nav>
-      <a href="index.html">🏠 <span>Início</span></a>
-      <a href="cadastro_pct.html" class="ativo">👤 <span>Pacientes</span></a>
-      <a href="lancar_medicacao.html">💉 <span>Dispensar</span></a>
-      <a href="estoque.html">📦 <span>Estoque</span></a>
+      <a href="/">🏠 <span>Início</span></a>
+      <a href="/cadastro-paciente" class="ativo">👤 <span>Pacientes</span></a>
+      <a href="/dispensar">💉 <span>Dispensar</span></a>
+      <a href="/estoque">📦 <span>Estoque</span></a>
     </nav>
   </header>
 
   <main>
     <div class="page-title">
-      <button class="back" onclick="location.href='index.html'">← Voltar</button>
+      <button class="back" onclick="location.href='/'">← Voltar</button>
       <h2>Cadastrar Paciente</h2>
     </div>
 
@@ -72,7 +70,6 @@
   </main>
 
   <script>
-    // Máscara CPF
     document.getElementById('cpf').addEventListener('input', function () {
       let v = this.value.replace(/\D/g, '').slice(0, 11);
       if (v.length > 9) v = v.replace(/(\d{3})(\d{3})(\d{3})(\d{1,2})/, '$1.$2.$3-$4');
@@ -107,8 +104,6 @@
         endereco: document.getElementById('endereco').value.trim() || null
       };
 
-      console.log('ENVIANDO BODY /api/pacientes:', body);
-
       try {
         const res = await fetch('/api/pacientes', {
           method: 'POST',
@@ -117,7 +112,6 @@
         });
 
         const data = await res.json();
-        console.log('RESPOSTA /api/pacientes:', res.status, data);
 
         if (res.ok) {
           mostrarAlerta('✅ Paciente cadastrado com sucesso!', 'sucesso');
@@ -126,7 +120,6 @@
           mostrarAlerta('❌ ' + (data.erro || 'Erro ao salvar paciente.'), 'erro');
         }
       } catch (err) {
-        console.error('Erro no fetch /api/pacientes:', err);
         mostrarAlerta('❌ Erro de conexão com o servidor.', 'erro');
       } finally {
         btn.disabled = false;

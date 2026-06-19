@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cadastrar Usuário — Farmácia</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+
+  <main>
+    <div class="page-title">
+      <button class="back" onclick="location.href='/'">← Voltar</button>
+      <h2>Cadastrar Usuário</h2>
+    </div>
+
+    <div class="card-form">
+      <div id="alerta" class="alerta"></div>
+
+      <form id="form-usuario">
+        <div class="form-grid">
+
+          <div class="campo full">
+            <label for="nome">Nome completo *</label>
+            <input type="text" id="nome" placeholder="Ex: Maria da Silva" required />
+          </div>
+
+          <div class="campo">
+            <label for="cpf">CPF *</label>
+            <input type="text" id="cpf" placeholder="000.000.000-00" maxlength="14" required />
+          </div>
+
+          <div class="campo">
+            <label for="data_nascimento">Data de nascimento</label>
+            <input type="date" id="data_nascimento" />
+          </div>
+
+          <div class="campo full">
+            <label for="email">E-mail *</label>
+            <input type="email" id="email" placeholder="seuemail@exemplo.com" required />
+          </div>
+
+          <div class="campo">
+            <label for="telefone">WhatsApp / Telefone</label>
+            <input type="text" id="telefone" placeholder="37999999999" />
+            <span style="font-size:11px; color: var(--cinza-400);">Com DDD, sem espaços.</span>
+          </div>
+
+        </div>
+
+        <div class="form-acoes">
+          <button type="button" class="btn btn-outline" onclick="limparForm()">Limpar</button>
+          <button type="submit" class="btn btn-primario" id="btn-salvar">💾 Salvar Usuário</button>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <script>
+    function mostrarAlerta(msg, tipo) {
+      const el = document.getElementById('alerta');
+      el.textContent = msg;
+      el.className = `alerta visivel ${tipo}`;
+    }
+
+    function limparForm() {
+      document.getElementById('form-usuario').reset();
+      document.getElementById('alerta').className = 'alerta';
+    }
+
+    document.getElementById('form-usuario').addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      const nome = document.getElementById('nome').value.trim();
+      const cpf = document.getElementById('cpf').value.trim();
+      const dataNasc = document.getElementById('data_nascimento').value;
+      const email = document.getElementById('email').value.trim();
+      const telefone = document.getElementById('telefone').value.trim();
+
+      if (!nome || !email || !cpf) {
+        return mostrarAlerta('Nome, e-mail e CPF são obrigatórios.', 'erro');
+      }
+
+      const btn = document.getElementById('btn-salvar');
+      btn.disabled = true;
+      btn.textContent = 'Salvando...';
+
+      try {
+        const res = await fetch('/api/usuarios', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ nome, cpf, data_nascimento: dataNasc, email, telefone })
+        });
+        const data = await res.json();
+
+        if (data.ok) {
+          mostrarAlerta('Usuário cadastrado com sucesso!', 'sucesso');
+          limparForm();
+        } else {
+          mostrarAlerta(data.erro || 'Erro ao cadastrar usuário.', 'erro');
+          btn.disabled = false;
+          btn.textContent = '💾 Salvar Usuário';
+        }
+      } catch {
+        mostrarAlerta('Erro de conexão com o servidor.', 'erro');
+        btn.disabled = false;
+        btn.textContent = '💾 Salvar Usuário';
+      }
+    });
+  </script>
+</body>
+</html>

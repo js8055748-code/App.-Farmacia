@@ -5,7 +5,22 @@
   "main": "src/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node src/server.js"
+    "start": "node src/server.js",
+    "build": "pkg src/server.js --targets node18-win-x64 --output build/farmacia-server.exe --public"
+  },
+  "pkg": {
+    "scripts": [
+      "src/**/*.js"
+    ],
+    "assets": [
+      "views/**/*",
+      "public/**/*",
+      "pdf/**/*"
+    ],
+    "outputPath": "build"
+  },
+  "devDependencies": {
+    "pkg": "^5.8.1"
   },
   "keywords": [],
   "author": "",
@@ -13,10 +28,11 @@
   "type": "commonjs",
   "dependencies": {
     "axios": "^1.17.0",
+    "cookie-parser": "^1.4.7",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
-    "mysql2": "^3.22.5",
     "node-cron": "^4.2.1",
-    "pdf-text-reader": "^5.1.1"
+    "pdf-text-reader": "^5.1.1",
+    "pg": "^8.13.3"
   }
 }
